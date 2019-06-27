@@ -1,25 +1,15 @@
-class PigLatinize
-  attr_accessor :text
+class PigLatinizer
+  def piglatinize(word_phrase)
+    word_convert = word_phrase.split ' '
 
-    def initialize(text = nil)
-     @text = text
-   end
-
-    def piglatinize
-     words = @text.split(" ")
-     arr_words = []
-     words.map do |word|
-       if (word =~ /yY/) == 0
-         arr_words << word[1..-1] + 'y' + 'ay'
-       else
-         vowel_location = first_vowel(word)
-         arr_words << word[vowel_location..-1] + word[0..vowel_location-1] + 'ay'
-       end
-     end
-     arr_words.join(" ")
-   end
-
-    def first_vowel(word)
-     word =~ /[aeoui]/
-   end
+    word_convert.map do |word|
+      if word.downcase.scan(/^[aeoui]+/).empty? == false
+        word + "way"
+      else
+        word_scan_2 = word.scan(/^[^aeoui]+/).join ''
+        word[0, word_scan_2.size] = ''
+        word + word_scan_2 + "ay"
+      end
+    end.join ' '
+  end
 end
